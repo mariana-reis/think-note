@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ['@prisma/nuxt', '@vueuse/nuxt', '@nuxt/icon'],
+  modules: ['@vueuse/nuxt', '@nuxt/icon'],
   devtools: { enabled: true },
   
   css: ['~/assets/main.css'],
@@ -14,7 +14,17 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       routes: ['/login']
-    }
+    },
+    externals: {
+      inline: ['.prisma/client'],
+    },
   },
+  
+   vite: {
+    ssr: {
+      noExternal: ['@prisma/client'],
+    },
+  },
+  
   compatibilityDate: '2024-11-01',
 })
