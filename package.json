@@ -3,12 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "prisma generate --schema=prisma/schema.prisma && nuxt build",
+    "build": "prisma generate && nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "prepare": "prisma generate",
-    "postinstall": "nuxt prepare"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@nuxt/icon": "1.11.0",
