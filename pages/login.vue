@@ -1,67 +1,85 @@
 <template>
-  <div class="flex bg-zinc-900 h-screen">
-    <div class="bg-black w-[516px] p-12 text-white flex flex-col justify-center">
-      <div class="absolute top-10">
-        <IconLogo />
-      </div>
-      <h1 class="font-bold text-lg mt-4">Acesse sua conta</h1>
-      <p class="text-zinc-300 text-sm mt-0.5">
-        Ainda não tem uma conta?
-        <NuxtLink to="/register" class="font-bold text-[#FF00F3]/50 hover:text-[#FF00F3] underline">
-          Cadastre-se
-        </NuxtLink>
-      </p>
+  <AuthLayout>
+    <template #info-section>
+      <AuthInfoSection
+        title="Bem-vindo ao "
+        description="Transforme pensamentos em notas organizadas. Capture ideias, gerencie tarefas e nunca perca insights importantes."
+        :features="loginFeatures"
+        cta-text="Criar conta grátis"
+        cta-link="/register"
+        cta-icon="i-mdi:arrow-right"
+      />
+    </template>
 
-      <form @submit.prevent="submit">
-        <div class="mt-8">
-          <label for="email" class="text-zinc-300 block text-sm mb-0.5">E-mail</label>
-          <input
-            v-model="email"
-            type="email"
-            placeholder="user@email.com"
-            class="w-full block bg-[#27272A] border border-[#3F3F46] rounded text-white px-4 py-2 placeholder:text-zinc-500 text-sm"
-          />
-        </div>
-        <div class="mt-6">
-          <label for="password" class="text-zinc-300 block text-sm mb-0.5">Senha</label>
-          <input
-            v-model="password"
-            type="password"
-            placeholder="********"
-            class="w-full block bg-[#27272A] border border-[#3F3F46] rounded text-white px-4 py-2 placeholder:text-zinc-500 text-sm"
-          />
-        </div>
-        <div>
-          <button
-            class="w-full mt-4 px-4 py-2 bg-[#FF00F3]/50 hover:bg-[#FF00F3] text-white text-sm font-bold rounded-full flex justify-center items-center space-x-2"
-          >
-            <span>Entrar</span>
-            <Icon name="i-line-md:login" size="25" />
-          </button>
-        </div>
-      </form>
-    </div>
+    <template #form>
+      <AuthFormWrapper
+        title="Acesse sua conta"
+        subtitle="Ainda não tem uma conta?"
+        link-to="/register"
+        link-text="Cadastre-se gratuitamente"
+        button-text="Entrar na conta"
+        button-icon="i-line-md:login"
+        icon-name="i-mdi:login"
+        @submit="submit"
+      >
+        <template #fields>
+          <div>
+            <label for="email" class="text-zinc-300 block text-sm font-medium mb-2">
+              E-mail
+            </label>
+            <input
+              id="email"
+              v-model="email"
+              type="email"
+              required
+              autocomplete="email"
+              placeholder="seu@email.com"
+              class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg text-white px-4 py-3 placeholder:text-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF00F3]/50 focus:border-transparent transition-all"
+            />
+          </div>
 
-    <div class="flex flex-col items-center justify-center text-white w-[916px] text-center">
-      <h2 class="text-3xl font-extrabold mb-6 text-[#FF00F3]">
-        Bem-vindo ao <span class="text-white">Think</span>Note
-      </h2>
-      <p class="text-xl mb-4 max-w-md">
-        Transforme pensamentos em notas. Capture ideias, organize tarefas e nunca perca insights importantes.
-      </p>
-      <div class="w-full flex justify-center items-center mt-8">
-        <NuxtLink to="/register" class="px-6 py-2 bg-[#FF00F3]/50 hover:bg-[#FF00F3] text-white text-lg font-bold rounded-full">
-          Criar conta
-        </NuxtLink>
-      </div>
-    </div>
-  </div>
+          <div>
+            <label for="password" class="text-zinc-300 block text-sm font-medium mb-2">
+              Senha
+            </label>
+            <input
+              id="password"
+              v-model="password"
+              type="password"
+              required
+              autocomplete="current-password"
+              placeholder="••••••••"
+              class="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg text-white px-4 py-3 placeholder:text-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF00F3]/50 focus:border-transparent transition-all"
+            />
+          </div>
+        </template>
+      </AuthFormWrapper>
+    </template>
+  </AuthLayout>
 </template>
 
 <script setup lang="ts">
   import { useAuth } from '@/composables/useAuth'
   
   const { email, password, login } = useAuth()
+  
+  const loginFeatures = [
+    {
+      icon: 'i-mdi:lightning-bolt',
+      title: 'Rápido e Simples',
+      description: 'Capture ideias em segundos'
+    },
+    {
+      icon: 'i-mdi:folder-multiple',
+      title: 'Bem Organizado',
+      description: 'Categorias e tags inteligentes'
+    },
+    {
+      icon: 'i-mdi:cloud-sync',
+      title: 'Sincronizado',
+      description: 'Acesse de qualquer lugar'
+    }
+  ]
   
   const submit = async (): Promise<void> => {
     await login()
